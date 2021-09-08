@@ -12,6 +12,7 @@ RUN npm run build
 # expose 1337 on container
 EXPOSE 1337
 
+#
 ENV HOST=0.0.0.0
 
 # start the app
