@@ -15,6 +15,7 @@
 
 -- Volcando estructura de base de datos para backend
 -- CREATE DATABASE IF NOT EXISTS `backend` /*!40100 DEFAULT CHARACTER SET utf8 */;
+CREATE DATABASE backend;
 USE `backend`;
 
 -- Volcando estructura para tabla backend.core_store
