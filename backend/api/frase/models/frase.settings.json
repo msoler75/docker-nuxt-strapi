@@ -1,0 +1,18 @@
+{
+  "kind": "singleType",
+  "collectionName": "frases",
+  "info": {
+    "name": "frase"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "frase": {
+      "type": "string"
+    }
+  }
+}
