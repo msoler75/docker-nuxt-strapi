@@ -424,3 +424,9 @@ Siguiendo el ejemplo de IP externa de antes, cargamos esta url en nuestro navega
 http://77.35.33.67
 
 *Nota: no va a funcionar, es tan solo un ejemplo.*
+
+
+Además, podremos acceder al servidor de mysql mediante el puerto 3306 y a la parte administrativa de strapi con el puerto 1337
+
+http://77.35.33.67:3306
+http://77.35.33.67:1337
