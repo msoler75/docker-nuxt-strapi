@@ -8,9 +8,9 @@ Primero crearemos un entorno puramente local de nuestro proyecto hasta verlo fun
 
 **0\) Requerimientos previos:**
 
+- tener npm instalado
 - tener node.js instalado (versión \>10, y \<14)
-- disponer en nuestra máquina de un servidor de base de datos de tipo
-mysql.
+- disponer en nuestra máquina de un servidor de base de datos de tipo mysql.
 - crearemos previamente una base de datos de nombre "backend"
 
 **1\) Creamos el proyecto de strapi con base de datos mysql**
@@ -65,7 +65,7 @@ Y guardamos.
 **6\) Damos permisos para que el usuario público pueda acceder a ese tipo**
 
 Configuraciones → Roles y Permisos → (role) Public → Application → Frase
-→ get
+→ find
 
 ![](./tutorial_media/image4.png)
 
@@ -73,14 +73,13 @@ Configuraciones → Roles y Permisos → (role) Public → Application → Frase
 
 `http://localhost:1337/frase`
 
-La respuesta del servidor es:
+La respuesta del servidor será algo así:
 
 `{"id":1,"frase":"No des peces, enseña a pescar","published_at":"2021-08-28T14:13:12.000Z","created_at":"2021-08-28T14:13:10.000Z","updated_at":"2021-08-28T14:13:12.000Z"}`
 
 **8\) Todo se está guardando correctamente en la base de datos en mysql.**
 
-Si accedemos a ver el contenido de nuestra base de datos veremos que en
-realidad un tipo único es una colección (frases) con un solo elemento.
+Si accedemos a ver el contenido de nuestra base de datos (en este caso estoy usando HeidiSQL) veremos que en realidad un tipo único es una colección (frases) con un solo elemento.
 
 ![](./tutorial_media/image5.png)
 
@@ -153,6 +152,8 @@ Vemos que el frontend está funcionando y carga desde el servicio de strapi la f
 
 En esta parte crearemos las dos imágenes docker para el frontend y el backend. Para luego poder correrlas en la máquina virtual de Google Cloud.
 
+El servicio de mysql lo correremos desde una imagen mysql que ya existe en los repositorios públicos.
+
 ### Creamos una imagen DOCKER de nuestro proyecto strapi
 
 Vamos a crear una imagen de docker con los contenidos del proyecto actual de strapi.
@@ -191,7 +192,7 @@ CMD [ "npm", "run", "start" ]
 
 El script *wait-for* nos servirá si queremos utilizar docker compose. Si no, no es necesario.
 
-**2\) Creamos el archivo *.dockerignore* para que docker ignore ciertas carpetas y archivos**
+**2\) Creamos el archivo *.dockerignore***
 
 .dockerignore:
 ```
@@ -247,9 +248,11 @@ ENV NUXT_PORT=5000
 CMD [ "npm", "run", "start" ]
 ```
 
-**2\) Copiamos aquí también el archivo .dockerignore de antes**
+*Nota: en esta imagen usaremos el puerto 5000 en lugar del habitual 3000*
 
-**3\) Ejecutamos el comando docker build para construir una imagen**
+**2\) Copiamos aquí también el archivo *.dockerignore* de antes**
+
+**3\) Ejecutamos el comando *docker build* para construir una imagen**
 
 `> docker build . -t project_nuxt`
 
@@ -261,8 +264,9 @@ CMD [ "npm", "run", "start" ]
 
 - Hemos creado un proyecto en Google Cloud de nombre *mi_proyecto*
 - Hemos habilitado la facturación del proyecto
-- Hemos habilitado la API de *Artifacts* en nuestro proyecto de Google Cloud
-- Hemos creado un repositorio en Google cloud artifacts de nombre *mirepo* ubicado en europe-west2
+- Hemos habilitado la API de *Artifacts* en nuestro proyecto
+- Hemos creado un repositorio en Google cloud artifacts de nombre *mirepo* ubicado en *europe-west2*
+- Hemos instalado la aplicación de consola de Google Cloud en nuestra máquina local
 
 **1\) Habilitamos la autorización en nuestra máquina local**
 
@@ -282,7 +286,7 @@ CMD [ "npm", "run", "start" ]
 
 ## Parte 4: Creamos instancia de maquina virtual (VM) 
 
-Para ello usaremos la imagen Container-Optimized OS, que está especializada en correr docker.
+Para ello usaremos la imagen *Container-Optimized OS*, que está especializada en correr docker. Hay varias versiones, se puede usar la más reciente.
 
 **1\) creamos la instancia**
 
@@ -307,11 +311,9 @@ En resumen, se puede crear desde la consola con el comando siguiente:
 
 **5\) Preparamos la base de datos**
 
-Necesitaremos el archivo *database.sql* con la creación de la base de
-datos, las tablas y la inserción de todos los datos.
+Necesitaremos el archivo *database.sql* con la creación de la base de datos, las tablas y la inserción de todos los datos.
 
-Para subir el archivo a la instancia (VM) abriremos sesión SSH y con la
-opción de terminal (rueda dentada) subiremos el archivo database.sql
+Para subir el archivo a la instancia (VM) abriremos sesión SSH y con la opción de terminal (rueda dentada) subiremos el archivo database.sql
 
 ![](./tutorial_media/image8.png)
 
@@ -322,7 +324,7 @@ https://cloud.google.com/compute/docs/instances/transfer-files
 
 ## Parte 5: Ejecutar los servicios en contenedores Docker
 
-**0\) Estamos dentro de SSH de la instancia**
+**0\) Estamos dentro del terminal SSH de la instancia**
 
 **1\) Arrancamos el servicio de mysql**
 
@@ -346,8 +348,7 @@ Una vez dentro de mysql, ejecutamos:
 
 `mysql> exit`
 
-*Nota importante: la contraseña 123 es solo para este ejercicio, pero
-debería usarse otra más compleja para mayor seguridad.*
+*Nota importante: la contraseña 123 es solo para este ejercicio, pero debería usarse otra más compleja para mayor seguridad.*
 
 **4\) Comprobamos el puerto abierto 3306**
 
@@ -361,7 +362,8 @@ Para que el servidor mysql pueda escuchar peticiones entrantes desde el exterior
 
 Aprovecharemos también para abrir el puerto de strapi 1337 para poder entrar en la administración de strapi desde el exterior
 
-- Crear una regla de FireWall
+Crear una regla de FireWall:
+
 - Nombre: default-incoming-3306-1337
 - Dirección del tráfico: Entrada
 - Acción en caso de coincidencia: Permitir
@@ -369,9 +371,7 @@ Aprovecharemos también para abrir el puerto de strapi 1337 para poder entrar en
 - Filtro de Origen: Rangos IP Origen: 0.0.0.0/0
 - Protocolos y puertos: TCP: 3306,1337
 
-Para que el firewall aplique correctamente, hemos de agregar la etiqueta
-de red *mysql-strapi* en la instancia. Editamos los datos de la
-instancia y agregamos esa etiqueta.
+Para que el firewall aplique correctamente, hemos de agregar la etiqueta de red *mysql-strapi* en la instancia. Editamos los datos de la instancia y agregamos esa etiqueta.
 
 **6\) Ejecutamos el contenedor de strapi**
 
@@ -381,6 +381,11 @@ https://console.cloud.google.com/compute/instances
 Una vez sabemos la IP externa, la reemplazamos en los siguientes comando en {EXTERNAL_IP}
 
 `> docker run -d \--name container_strapi -p 1337:1337 -e "DATABASE_HOST={EXTERNAL_IP}" -e "DATABASE_USERNAME=admin" -e "DATABASE_PASSWORD=123" europe-west2-docker.pkg.dev/mi_proyecto/mirepo/project_strapi`
+
+Por ejemplo, si la IP fuera 77.35.33.67 el comando sería:
+
+`> docker run -d \--name container_strapi -p 1337:1337 -e "DATABASE_HOST=77.35.33.67" -e "DATABASE_USERNAME=admin" -e "DATABASE_PASSWORD=123" europe-west2-docker.pkg.dev/mi_proyecto/mirepo/project_strapi`
+
 
 **7\) Ejecutamos el contenedor de nuxt**
 
@@ -412,4 +417,10 @@ Para eliminar contenedores finalizados
 
 ## Final
 
-Ya podemos abrir la url con la IP externa de la instancia y veremos la página funcionando.
+¡Ya podemos abrir la url con la IP externa de la instancia y veremos la página funcionando!
+
+Siguiendo el ejemplo de IP externa de antes, cargamos esta url en nuestro navegador:
+
+http://77.35.33.67
+
+*Nota: no va a funcionar, es tan solo un ejemplo.*
