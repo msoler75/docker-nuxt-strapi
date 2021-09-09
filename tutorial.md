@@ -8,16 +8,14 @@ Primero crearemos un entorno puramente local de nuestro proyecto hasta verlo fun
 
 **0\) Requerimientos previos:**
 
-\- tener node.js instalado (versión \>10, y \<14)
-
-\- disponer en nuestra máquina de un servidor de base de datos de tipo
+- tener node.js instalado (versión \>10, y \<14)
+- disponer en nuestra máquina de un servidor de base de datos de tipo
 mysql.
-
-\- crearemos previamente una base de datos de nombre "backend"
+- crearemos previamente una base de datos de nombre "backend"
 
 **1\) Creamos el proyecto de strapi con base de datos mysql**
 
-\> npx create-strapi-app backend
+`> npx create-strapi-app backend`
 
 Para este proyecto sencillo elegiremos la opción "custom" y sin ninguna
 template.
@@ -25,22 +23,18 @@ template.
 Nos pedirá poner los datos de acceso a la base de datos. En nuestro
 caso:
 
-\- database: mysql
+- database: mysql
+- nombre de la database: backend
+- usuario: root
+- contraseña (ninguna)
 
-\- nombre de la database: backend
-
-\- usuario: root
-
-\- contraseña (ninguna)
-
-![](./tutorial_media/image1.png){width="6.6930555555555555in"
-height="3.6506944444444445in"}
+![](./tutorial_media/image1.png)
 
 **2\) Arrancamos la aplicación de servidor de strapi**
 
-\> cd backend
+`> cd backend`
 
-\> npm run develop
+`> npm run develop`
 
 **3\) Abrimos en el navegador la URL del servidor localhost:1337**
 
@@ -49,8 +43,7 @@ Nos aparece la página inicial para crear el usuario superadministrador
 Importante: anota los datos de acceso para o el servidor quedará
 inaccesible
 
-![](./tutorial_media/image2.png){width="5.058333333333334in"
-height="6.591666666666667in"}
+![](./tutorial_media/image2.png)
 
 **4\) Creamos un tipo único: Frase**
 
@@ -78,12 +71,11 @@ Configuraciones → Roles y Permisos → (role) Public → Application → Frase
 
 **7\) Si abrimos un navegador y ponemos esta url, veremos el contenido**
 
-http://localhost:1337/frase
+`http://localhost:1337/frase`
 
 La respuesta del servidor es:
 
-{\"id\":1,\"frase\":\"No des peces, enseña a
-pescar\",\"published_at\":\"2021-08-28T14:13:12.000Z\",\"created_at\":\"2021-08-28T14:13:10.000Z\",\"updated_at\":\"2021-08-28T14:13:12.000Z\"}
+`{"id":1,"frase":"No des peces, enseña a pescar","published_at":"2021-08-28T14:13:12.000Z","created_at":"2021-08-28T14:13:10.000Z","updated_at":"2021-08-28T14:13:12.000Z"}`
 
 **8\) Todo se está guardando correctamente en la base de datos en mysql.**
 
@@ -92,14 +84,13 @@ realidad un tipo único es una colección (frases) con un solo elemento.
 
 ![](./tutorial_media/image5.png)
 
-
-
+---
 
 ### Creación del frontend con NUXT v2
 
 **1\) creamos el proyecto Nuxt**
 
-\> npm init nuxt-app frontend
+`> npm init nuxt-app frontend`
 
 Podéis usar las opciones de instalación que se muestran a continuación,
 o las que os vengan bien.
@@ -108,9 +99,9 @@ o las que os vengan bien.
 
 **2\) Instalamos el módulo de strapi para nuxt**
 
-\> cd frontend
+`> cd frontend`
 
-\> npm i \@nuxtjs/strapi
+`> npm i @nuxtjs/strapi`
 
 **3\) Editamos nuxt.config.js y añadimos el módulo de strapi**
 
@@ -148,7 +139,7 @@ export default {
 
 **5\) arrancamos la app de nuxt**
 
-\> npm run dev
+`> npm run dev`
 
 **6\) Vamos al navegador y cargamos la página localhost:3000**
 
@@ -156,8 +147,7 @@ export default {
 
 Vemos que el frontend está funcionando y carga desde el servicio de strapi la frase antes almacenada.
 
-
-
+---
 
 ## Parte 2: Creación de imágenes docker
 
@@ -169,12 +159,12 @@ Vamos a crear una imagen de docker con los contenidos del proyecto actual de str
 
 **0\) Requisitos:**
 
-\- Debes tener instalado docker en tu sistema.
+- Debes tener instalado docker en tu sistema.
 
 
 **1\) Creamos un archivo Dockerfile en la carpeta backend**
 
-\> cd backend
+`> cd backend`
 
 Dockerfile:
 ```
@@ -218,15 +208,16 @@ Dockerfile
 
 La forma más sencilla es estando en la carpeta del backend y ejecutar
 
-\> docker build . -t project_strapi
+`> docker build . -t project_strapi`
 
 El parámetro -t sirve para etiquetar la imagen resultante.
 
+---
 
 ### Creamos una imagen DOCKER de nuestro frontend con nuxt
 
 
-1\) creamos un archivo *Dockerfile* en la carpeta *frontend*
+**1\) creamos un archivo Dockerfile en la carpeta frontend**
 
 Dockerfile:
 ```
@@ -260,38 +251,34 @@ CMD [ "npm", "run", "start" ]
 
 **3\) Ejecutamos el comando docker build para construir una imagen**
 
-\> docker build . -t project_nuxt
+`> docker build . -t project_nuxt`
 
-
+---
 
 ## Parte 3: Preparamos el repositorio de Google Cloud Artifacts
 
 **0\) Requisitos previos:**
 
--   Hemos creado un proyecto en Google Cloud de nombre *mi_proyecto*
-
--   Hemos habilitado la facturación del proyecto
-
--   Hemos habilitado la API de *Artifacts* en nuestro proyecto de Google
-    Cloud
-
--   Hemos creado un repositorio en Google cloud artifacts de nombre
-    *mirepo* ubicado en europe-west2
+- Hemos creado un proyecto en Google Cloud de nombre *mi_proyecto*
+- Hemos habilitado la facturación del proyecto
+- Hemos habilitado la API de *Artifacts* en nuestro proyecto de Google Cloud
+- Hemos creado un repositorio en Google cloud artifacts de nombre *mirepo* ubicado en europe-west2
 
 **1\) Habilitamos la autorización en nuestra máquina local**
 
-\> gcloud auth configure-docker europe-west2-docker.pkg.dev
+`> gcloud auth configure-docker europe-west2-docker.pkg.dev`
 
 **2\) Etiquetamos las imagenes para que puedan ser ubicadas en el repositorio de google cloud artifacts**
 
-\> docker tag project_strapi europe-west2-docker.pkg.dev/mi_proyecto/mirepo/project_strapi
-\> docker tag project_nuxt europe-west2-docker.pkg.dev/mi_proyecto/mirepo/project_nuxt
+`> docker tag project_strapi europe-west2-docker.pkg.dev/mi_proyecto/mirepo/project_strapi`
+`> docker tag project_nuxt europe-west2-docker.pkg.dev/mi_proyecto/mirepo/project_nuxt`
 
 **3\) pusheamos las imagenes al repositorio**
 
-\> docker push europe-west2-docker.pkg.dev/mi_proyecto/mirepo/project_strapi
-\> docker tag project_strapi europe-west2-docker.pkg.dev/mi_proyecto/mirepo/project_nuxt
+`> docker push europe-west2-docker.pkg.dev/mi_proyecto/mirepo/project_strapi`
+`> docker tag project_strapi europe-west2-docker.pkg.dev/mi_proyecto/mirepo/project_nuxt`
 
+---
 
 ## Parte 4: Creamos instancia de maquina virtual (VM) 
 
@@ -304,19 +291,19 @@ https://cloud.google.com/container-optimized-os/docs/how-to/create-configure-ins
 
 En resumen, se puede crear desde la consola con el comando siguiente:
 
-\> gcloud compute instances create *webnodeserver* \--image *cos-89-16108-470-16* \--image-project cos-cloud \--zone *southamerica-east1-c* \--machine-type *g1-small*
+`> gcloud compute instances create webnodeserver --image cos-89-16108-470-16 --image-project cos-cloud --zone southamerica-east1-c --machine-type g1-small`
 
 **2\) corremos (run) la instancia y abrimos sesión SSH**
 
 **3\) damos permisos al sistema para acceder a nuestro repositorio privado de Artifacts**
 
-\> docker-credential-gcr configure-docker \--registries europe-west2-docker.pkg.dev
+`> docker-credential-gcr configure-docker --registries europe-west2-docker.pkg.dev`
 
-**4\) (opcional) ahora podemos pullear (descargar) imagenes de nuestro repositorio en artifacts**
+**4\) (opcional) ahora podemos descargar imagenes de nuestro repositorio**
 
-\> docker pull europe-west2-docker.pkg.dev/mi_proyecto/mirepo/project_strapi
+`> docker pull europe-west2-docker.pkg.dev/mi_proyecto/mirepo/project_strapi`
 
-\> docker pull europe-west2-docker.pkg.dev/mi_proyecto/mirepo/project_nuxt
+`> docker pull europe-west2-docker.pkg.dev/mi_proyecto/mirepo/project_nuxt`
 
 **5\) Preparamos la base de datos**
 
@@ -331,7 +318,7 @@ opción de terminal (rueda dentada) subiremos el archivo database.sql
 Ver tutorial en
 https://cloud.google.com/compute/docs/instances/transfer-files
 
-
+---
 
 ## Parte 5: Ejecutar los servicios en contenedores Docker
 
@@ -339,33 +326,32 @@ https://cloud.google.com/compute/docs/instances/transfer-files
 
 **1\) Arrancamos el servicio de mysql**
 
-\> docker run \--name servidor_mysql \--net=host -e MYSQL_ROOT_PASSWORD=x9k1kz0 -d mysql:5.7
+`> docker run --name servidor_mysql --net=host -e MYSQL_ROOT_PASSWORD=x9k1kz0 -d mysql:5.7`
 
 **2\) Importamos la base de datos desde el archivo database.sql**
 
-\> docker exec -i servidor_mysql mysql -uroot -px9k1kz0 mysql \<
-database.sql
+`> docker exec -i servidor_mysql mysql -uroot -px9k1kz0 mysql < database.sql`
 
 **3\) Creamos un usuario con privilegios de acceso**
 
 Primero accedemos al contenedor:
 
-\> docker exec -it servidor_mysql mysql -uroot -px9k1kz0 mysql
+`> docker exec -it servidor_mysql mysql -uroot -px9k1kz0 mysql`
 
 Una vez dentro de mysql, ejecutamos:
 
-mysql\> CREATE USER \'admin\'@\'%\' IDENTIFIED BY \'123\';
+`mysql> CREATE USER 'admin'@'%' IDENTIFIED BY '123';`
 
-mysql\> GRANT ALL PRIVILEGES ON \*. \* TO \'admin\'@\'%\' WITH GRANT OPTION;
+`mysql> GRANT ALL PRIVILEGES ON *. * TO 'admin'@'%' WITH GRANT OPTION;`
 
-mysql> exit
+`mysql> exit`
 
 *Nota importante: la contraseña 123 es solo para este ejercicio, pero
 debería usarse otra más compleja para mayor seguridad.*
 
 **4\) Comprobamos el puerto abierto 3306**
 
-\> sudo netstat -tulpn \| grep LISTEN
+`> sudo netstat -tulpn | grep LISTEN`
 
 Tenemos que ver el puerto 3306 de mysql.
 
@@ -394,39 +380,35 @@ https://console.cloud.google.com/compute/instances
 
 Una vez sabemos la IP externa, la reemplazamos en los siguientes comando en {EXTERNAL_IP}
 
-\> docker run -d \--name container_strapi -p 1337:1337 -e
-\"DATABASE_HOST={EXTERNAL_IP}\" -e \"DATABASE_USERNAME=admin\" -e
-\"DATABASE_PASSWORD=123\"
-europe-west2-docker.pkg.dev/mi_proyecto/mirepo/project_strapi
+`> docker run -d \--name container_strapi -p 1337:1337 -e "DATABASE_HOST={EXTERNAL_IP}" -e "DATABASE_USERNAME=admin" -e "DATABASE_PASSWORD=123" europe-west2-docker.pkg.dev/mi_proyecto/mirepo/project_strapi`
 
 **7\) Ejecutamos el contenedor de nuxt**
 
-\> docker run -d \--name container_nuxt -p 80:5000 -e
-\"STRAPI_URL=http://{EXTERNAL_IP}:1337\"
-europe-west2-docker.pkg.dev/mi_proyecto/mirepo/project_nuxt
+`> docker run -d --name container_nuxt -p 80:5000 -e "STRAPI_URL=http://{EXTERNAL_IP}:1337" europe-west2-docker.pkg.dev/mi_proyecto/mirepo/project_nuxt`
 
 **8\) Manejando docker**
 
 Para ver los contenedores corriendo:
 
-\> docker ps -a
+`> docker ps -a`
 
 Para ver los contenedores (corriendo o no)
 
-\> docker container ls
+`> docker container ls`
 
 Para parar un contenedores
 
-\> docker container stop container_strapi
+`> docker container stop container_strapi`
 
 Para borrar un contenedor
 
-\> docker rm nombre_contenedor
+`> docker rm nombre_contenedor`
 
 Para eliminar contenedores finalizados
 
-\> docker container prune
+`> docker container prune`
 
+---
 
 ## Final
 
