@@ -1,4 +1,4 @@
-FROM node:11.13.0-alpine
+FROM node:14-alpine3.14
 
 # create destination directory
 RUN mkdir -p /usr/src/nuxt-app
@@ -24,9 +24,5 @@ ENV NUXT_HOST=0.0.0.0
 # set app port
 ENV NUXT_PORT=5000
 
-# RUN apk add curl
-# RUN curl -OL https://raw.githubusercontent.com/mrako/wait-for/master/wait-for && chmod +x wait-for
-
 # start the app
-CMD [ "npm", "start" ]
-
+CMD [ "npm", "run", "start" ]
