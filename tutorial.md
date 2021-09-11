@@ -47,14 +47,15 @@ inaccesible
 
 **4\) Creamos un tipo único: Frase**
 
-Le añadimos con un campo de texto corto, de nombre "frase"
+Con el Creador de Tipos de Contenido (Content Type Builder) cremos un nuevo tipo único llamado Frase.
+
+Le añadimos un campo de texto corto, de nombre "frase".
 
 Se reinicializará el servidor.
 
-Si ahora no aparece el campo único Frase a la izquierda, recargamos la
-página y si aún no aparece, reiniciamos el servidor con npm run develop.
+Si ahora no aparece el campo único Frase a la izquierda, recargamos la página y si aún no aparece, reiniciamos el servidor con npm run develop.
 
-**5\) Editamos el tipo único Frase, y establecemos un valor en el campo "frase".**
+**5\) Editamos el tipo único Frase, y establecemos un valor en el campo "frase"**
 
 El valor en este campo es: "No des peces. Enseña a pescar".
 
@@ -77,7 +78,7 @@ La respuesta del servidor será algo así:
 
 `{"id":1,"frase":"No des peces, enseña a pescar","published_at":"2021-08-28T14:13:12.000Z","created_at":"2021-08-28T14:13:10.000Z","updated_at":"2021-08-28T14:13:12.000Z"}`
 
-**8\) Todo se está guardando correctamente en la base de datos en mysql.**
+**8\) Todo se está guardando correctamente en la base de datos en mysql**
 
 Si accedemos a ver el contenido de nuestra base de datos (en este caso estoy usando HeidiSQL) veremos que en realidad un tipo único es una colección (frases) con un solo elemento.
 
@@ -205,7 +206,7 @@ Dockerfile
 .env
 ```
 
-**3\) Ejecutamos docker build***
+**3\) Ejecutamos docker build**
 
 La forma más sencilla es estando en la carpeta del backend y ejecutar
 
@@ -380,11 +381,11 @@ https://console.cloud.google.com/compute/instances
 
 Una vez sabemos la IP externa, la reemplazamos en los siguientes comando en {EXTERNAL_IP}
 
-`> docker run -d \--name container_strapi -p 1337:1337 -e "DATABASE_HOST={EXTERNAL_IP}" -e "DATABASE_USERNAME=admin" -e "DATABASE_PASSWORD=123" europe-west2-docker.pkg.dev/mi_proyecto/mirepo/project_strapi`
+`> docker run -d --name container_strapi -p 1337:1337 -e "DATABASE_HOST={EXTERNAL_IP}" -e "DATABASE_USERNAME=admin" -e "DATABASE_PASSWORD=123" europe-west2-docker.pkg.dev/mi_proyecto/mirepo/project_strapi`
 
 Por ejemplo, si la IP fuera 77.35.33.67 el comando sería:
 
-`> docker run -d \--name container_strapi -p 1337:1337 -e "DATABASE_HOST=77.35.33.67" -e "DATABASE_USERNAME=admin" -e "DATABASE_PASSWORD=123" europe-west2-docker.pkg.dev/mi_proyecto/mirepo/project_strapi`
+`> docker run -d --name container_strapi -p 1337:1337 -e "DATABASE_HOST=77.35.33.67" -e "DATABASE_USERNAME=admin" -e "DATABASE_PASSWORD=123" europe-west2-docker.pkg.dev/mi_proyecto/mirepo/project_strapi`
 
 
 **7\) Ejecutamos el contenedor de nuxt**
@@ -428,5 +429,6 @@ http://77.35.33.67
 
 Además, podremos acceder al servidor de mysql mediante el puerto 3306 y a la parte administrativa de strapi con el puerto 1337
 
-http://77.35.33.67:3306
-http://77.35.33.67:1337
+MySQL: http://77.35.33.67:3306
+
+Strapi Administración: http://77.35.33.67:1337
