@@ -276,11 +276,13 @@ CMD [ "npm", "run", "start" ]
 **2\) Etiquetamos las imagenes para que puedan ser ubicadas en el repositorio de google cloud artifacts**
 
 `> docker tag project_strapi europe-west2-docker.pkg.dev/mi_proyecto/mirepo/project_strapi`
+
 `> docker tag project_nuxt europe-west2-docker.pkg.dev/mi_proyecto/mirepo/project_nuxt`
 
 **3\) pusheamos las imagenes al repositorio**
 
 `> docker push europe-west2-docker.pkg.dev/mi_proyecto/mirepo/project_strapi`
+
 `> docker tag project_strapi europe-west2-docker.pkg.dev/mi_proyecto/mirepo/project_nuxt`
 
 ---
@@ -387,7 +389,6 @@ Por ejemplo, si la IP fuera 77.35.33.67 el comando sería:
 
 `> docker run -d --name container_strapi -p 1337:1337 -e "DATABASE_HOST=77.35.33.67" -e "DATABASE_USERNAME=admin" -e "DATABASE_PASSWORD=123" europe-west2-docker.pkg.dev/mi_proyecto/mirepo/project_strapi`
 
-
 **7\) Ejecutamos el contenedor de nuxt**
 
 `> docker run -d --name container_nuxt -p 80:5000 -e "STRAPI_URL=http://{EXTERNAL_IP}:1337" europe-west2-docker.pkg.dev/mi_proyecto/mirepo/project_nuxt`
@@ -425,7 +426,6 @@ Siguiendo el ejemplo de IP externa de antes, cargamos esta url en nuestro navega
 http://77.35.33.67
 
 *Nota: no va a funcionar, es tan solo un ejemplo.*
-
 
 Además, podremos acceder al servidor de mysql mediante el puerto 3306 y a la parte administrativa de strapi con el puerto 1337
 
