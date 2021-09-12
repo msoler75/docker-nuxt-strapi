@@ -293,8 +293,12 @@ Para ello usaremos la imagen *Container-Optimized OS*, que está especializada e
 
 **1\) creamos la instancia**
 
+Para ello habremos primero de habilitar la Compute Engine API en el proyecto.
+
 Podemos consultar la documentación:
 https://cloud.google.com/container-optimized-os/docs/how-to/create-configure-instance
+
+Básicamente hemos de elegir un tipo de máquina, una zona, etc. En nuestro caso una máquina pequeña (g1 small o micro), una región y una zona por ejemplo southamerica-east1-c.
 
 En resumen, se puede crear desde la consola con el comando siguiente:
 
