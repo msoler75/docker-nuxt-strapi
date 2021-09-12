@@ -335,7 +335,7 @@ https://cloud.google.com/compute/docs/instances/transfer-files
 
 **1\) Arrancamos el servicio de mysql**
 
-`> docker run --name servidor_mysql --net=host -e MYSQL_ROOT_PASSWORD=x9k1kz0 -d mysql:5.7`
+`> docker run --name servidor_mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=x9k1kz0 -d mysql:5.7`
 
 **2\) Importamos la base de datos desde el archivo database.sql**
 
