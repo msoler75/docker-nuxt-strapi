@@ -40,8 +40,7 @@ caso:
 
 Nos aparece la página inicial para crear el usuario superadministrador
 
-Importante: anota los datos de acceso para o el servidor quedará
-inaccesible
+Importante: anota los datos de acceso del usuario superadministrador o el servidor quedará inadministrable.
 
 ![](./tutorial_media/image2.png)
 
@@ -407,7 +406,7 @@ Para ver los contenedores (corriendo o no)
 
 `> docker container ls`
 
-Para parar un contenedores
+Para parar un contenedor
 
 `> docker container stop container_strapi`
 
@@ -418,6 +417,10 @@ Para borrar un contenedor
 Para eliminar contenedores finalizados
 
 `> docker container prune`
+
+Para ver la salida de un contenedor 
+
+`> docker logs container_strapi`
 
 ---
 
